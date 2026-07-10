@@ -6,7 +6,7 @@ index_template = """\
 <head>
   <meta charset="UTF-8">
   <title> My blog </title>
-  <link rel="stylesheet" href="/styles/styles.css">
+  <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
   <h1> Blog posts </h1>
@@ -25,7 +25,7 @@ post_template = """\
 <head>
   <meta charset="UTF-8">
   <title> {{ post.title }} </title>
-  <link rel="stylesheet" href="/styles/styles.css">
+  <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
   <h1> {{ post.title }} </h1>

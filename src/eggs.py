@@ -2,6 +2,7 @@ import sys
 
 from funcs.init import init
 from funcs.build import build
+from funcs.live import live
 
 # Main
 arg = None
@@ -17,6 +18,9 @@ try:
 
         case 'build':
             build()
+
+        case 'live':
+            live()
 
         case None:
             print('Excelsius and Glorious Generator of Sites')
