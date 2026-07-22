@@ -1,3 +1,3 @@
 # Eggs
 
-*Excesious and Glorious Generator of Sites*
+*Excelsious and Glorious Generator of Sites*
