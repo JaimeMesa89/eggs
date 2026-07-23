@@ -40,8 +40,9 @@ def build():
                     "content" : post,
                     "slug" : markdown_post[:-3] + ".html",
                     "title" : post.metadata["title"],
-                    "description" : markdown_file.split("\n\n", 2)[1], 
-                    "date" : post.metadata["date"]
+                    "description" : post.split("\n\n", 2)[0].strip()[3:-4], 
+                    "date" : post.metadata["date"],
+                    "date-season" : get_season(post.metadata["date"])
                 })
 
 
@@ -69,12 +70,32 @@ def build():
             with open(file_path, 'w') as f:
                 f.write(rendered_post)
 
+        
+        # Generate RSS
         generate_rss(posts)
 
         # Render posts page
         print('Site generated succesfully')
     else:
         print('Error: eggs.toml not found in the current directory or ancestor')
+
+def get_season(date):
+    season = ""
+
+    date = date.split("-")
+
+    if int(date[1]) in (12, 1, 2):
+        season = "Winter"
+    if int(date[1]) in (3, 4, 5):
+        season = "Spring"
+    if int(date[1]) in (6, 7, 8):
+        season =  "Summer"
+    else:
+        season = "Autumm"
+
+    season += " of " + date[2]
+
+    return season
 
 def generate_rss(posts):
     site_url = "https://jaimemesa.neocities.org/"
@@ -84,6 +105,7 @@ def generate_rss(posts):
     ET.SubElement(channel, "title").text = "Jaime's Jazz Joint"
     ET.SubElement(channel, "description").text = "Jaime's favorite corner of the internet"
     ET.SubElement(channel, "link").text = site_url
+    ET.SubElement(channel, "language").text = "en"
 
     for post in posts:
         item = ET.SubElement(channel, "item")

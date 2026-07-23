@@ -11,8 +11,8 @@ index_template = """\
 <body>
   <h1> Blog posts </h1>
   <ul>
-  {% for post_data in posts_data %}
-  <li> <a href=" {{ post_data["slug"] }}"> {{ post_data["title"] }} </a>| <small> {{ post_data["date"] }} </small></li>
+  {% for post in posts %}
+  <li> <a href=" {{ post["slug"] }}"> {{ post["title"] }} </a>| <small> {{ post["date"] }} </small></li>
   {% endfor %}
   </ul>
 </body>
@@ -24,12 +24,12 @@ post_template = """\
 <html lang="en"> 
 <head>
   <meta charset="UTF-8">
-  <title> {{ post.title }} </title>
+  <title> {{ post[title] }} </title>
   <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
-  <h1> {{ post.title }} </h1>
-  {{ post.content }}
+  <h1> {{ post["title"] }} </h1>
+  {{ post["content"] }}
 </body>
 </html>
 """
