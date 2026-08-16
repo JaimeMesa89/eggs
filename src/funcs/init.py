@@ -1,5 +1,12 @@
 import os
 
+config_file = """\
+title = ""
+description = ""
+url = ""
+language = ""
+"""
+
 index_template = """\
 <!Doctype html>
 <html lang="en"> 
@@ -50,7 +57,7 @@ def init():
         os.mkdir('static')
 
         with open('config.toml', 'w') as f:
-            f.write('')
+            f.write(config_file)
 
         with open('templates/index.html', 'w') as f:
             f.write(index_template)

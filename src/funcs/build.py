@@ -1,6 +1,7 @@
 import os
 import re
 import shutil
+import tomllib
 from datetime import datetime, timezone
 from markdown2 import markdown
 from jinja2 import Environment, FileSystemLoader
@@ -105,14 +106,17 @@ def get_season(date):
 
 
 def generate_rss(posts):
-    site_url = "https://jaimemesa.neocities.org/"
+    with open("config.toml", "rb") as f:
+        config = tomllib.load(f)
+
+    site_url = config["url"]
     rss = ET.Element("rss", version="2.0")    
     channel = ET.SubElement(rss, "channel")
 
-    ET.SubElement(channel, "title").text = "Jaime's Jazz Joint"
-    ET.SubElement(channel, "description").text = "Jaime's favorite corner of the internet"
+    ET.SubElement(channel, "title").text = config["title"]
+    ET.SubElement(channel, "description").text = config["description"]
     ET.SubElement(channel, "link").text = site_url
-    ET.SubElement(channel, "language").text = "en"
+    ET.SubElement(channel, "language").text = config["language"]
 
     for post in posts:
         item = ET.SubElement(channel, "item")
