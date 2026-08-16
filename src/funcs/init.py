@@ -19,7 +19,7 @@ index_template = """\
   <h1> Blog posts </h1>
   <ul>
   {% for post in posts %}
-  <li> <a href=" {{ post["slug"] }}"> {{ post["title"] }} </a>| <small> {{ post["date"] }} </small></li>
+  <li> <a href=" {{ post["url"] }}"> {{ post["title"] }} </a>| <small> {{ post["date"] }} </small></li>
   {% endfor %}
   </ul>
 </body>
