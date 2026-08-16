@@ -23,9 +23,15 @@ def build():
 
         # Load jinja templates
         env = Environment(loader=FileSystemLoader(os.path.join(os.getcwd(),'templates')))
+
         post_template = env.get_template("post.html")
-        index_template = env.get_template("index.html")
-        all_posts_template = env.get_template("posts.html")
+
+        templates = [
+            template
+            for template in env.list_templates(extensions=["html"])
+            if template not in ["base.html", "post.html"]
+        ]
+
 
         # Get md posts and parse the content
         for markdown_post in os.listdir("content"):
@@ -38,7 +44,7 @@ def build():
 
                 posts.append({
                     "content" : post,
-                    "slug" : markdown_post[:-3] + ".html",
+                    "url" : "posts/" + markdown_post[:-3] + ".html",
                     "title" : post.metadata["title"],
                     "description" : post.split("\n\n", 2)[0].strip()[3:-4], 
                     "date" : post.metadata["date"],
@@ -49,22 +55,21 @@ def build():
         # Sort all posts by creation date
         posts.sort(key=lambda post:datetime.strptime(post["date"], '%d-%m-%Y'), reverse=True)
 
-        # Render index injecting the posts data into the index template and write the generated content into a file
-        rendered_index = index_template.render(posts = posts)
 
-        with open("output/index.html", 'w') as f:
-            f.write(rendered_index)
+        # Render regular templates 
+        for template_name in templates:
+            template = env.get_template(template_name)
+            rendered_page = template.render(posts=posts)
 
+            output_path = os.path.join("output", template_name)
 
-        # All posts
-        rendered_all_posts = all_posts_template.render(posts = posts)
-        with open("output/posts.html", 'w') as f:
-            f.write(rendered_all_posts)
+            with open(output_path, "w") as f:
+                f.write(rendered_page)
 
 
         # Render posts injecting the content in the post template and write the generated contend into files
         for post in posts:
-            file_path = "output/posts/" + post["slug"]
+            file_path = "output/" + post["url"]
             rendered_post = post_template.render(post=post)
 
             with open(file_path, 'w') as f:
@@ -78,6 +83,7 @@ def build():
         print('Site generated succesfully')
     else:
         print('Error: eggs.toml not found in the current directory or ancestor')
+
 
 def get_season(date):
     season = ""
@@ -97,6 +103,7 @@ def get_season(date):
 
     return season
 
+
 def generate_rss(posts):
     site_url = "https://jaimemesa.neocities.org/"
     rss = ET.Element("rss", version="2.0")    
@@ -112,7 +119,7 @@ def generate_rss(posts):
 
         ET.SubElement(item, "title").text = post["title"]
         ET.SubElement(item, "description").text = post["description"]
-        ET.SubElement(item, "link").text = site_url + "posts/" + post["slug"]
+        ET.SubElement(item, "link").text = site_url + post["url"]
 
         date = datetime.strptime(post["date"], "%d-%m-%Y")
         date = date.replace(tzinfo=timezone.utc)
