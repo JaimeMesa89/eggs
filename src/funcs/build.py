@@ -9,7 +9,10 @@ import xml.etree.ElementTree as ET
 from email.utils import format_datetime
 
 # Generate the index and posts on output
-def build():
+def build(path):
+    if path != None and isinstance(path, str):
+        os.chdir(path)
+
     if os.path.isfile('config.toml'):
         # Regenerate the output directory
         shutil.rmtree('output', ignore_errors=True)
@@ -47,6 +50,7 @@ def build():
                     "content" : post,
                     "url" : "posts/" + markdown_post[:-3] + ".html",
                     "title" : post.metadata["title"],
+                    "thumbnail" : post.metadata["thumbnail"],
                     "description" : post.split("\n\n", 2)[0].strip()[3:-4], 
                     "date" : post.metadata["date"],
                     "date-season" : get_season(post.metadata["date"])

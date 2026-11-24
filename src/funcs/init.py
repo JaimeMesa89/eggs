@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 config_file = """\
 title = ""
@@ -20,6 +21,9 @@ index_template = """\
   <ul>
   {% for post in posts %}
   <li> <a href=" {{ post["url"] }}"> {{ post["title"] }} </a>| <small> {{ post["date"] }} </small></li>
+  {% if post["thumbnail"] != "" %}
+  <img src="{{ post["thumbnail"] }}" alt="monito" width="150" height="100">
+  {% endif %}
   {% endfor %}
   </ul>
 </body>
@@ -36,7 +40,10 @@ post_template = """\
 </head>
 <body>
   <h1> {{ post["title"] }} </h1>
+  {% if post["thumbnail"] != "" %}
+  <img src="{{ post["thumbnail"] }}" alt="monito" width="150" height="100">
   {{ post["content"] }}
+  {% endif %}
 </body>
 </html>
 """
@@ -44,12 +51,18 @@ post_template = """\
 sample_post = """\
 title: Sample Title
 date: 6-7-2026
+thumbnail: https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F88%2F5b%2Fc5%2F885bc5cad4369e104be5eeab6c5d4b11.jpg
 
 Sample content
 """
 
 # Generate project structure if the directory is empty
-def init():
+def init(path):
+    if path != None:
+        if not Path(path).is_dir():
+            os.mkdir(path)
+        os.chdir(path)
+
     if len(os.listdir()) == 0:
         os.mkdir('templates')
         os.mkdir('content')
@@ -75,4 +88,4 @@ def init():
         print("Project initialized succesfully")
     else:
         print("Error: Failed to initialize project")
-        print("Error: The current directory is not empty")
+        print("Error: The selected directory (" + os.getcwd() + ") is not empty")
