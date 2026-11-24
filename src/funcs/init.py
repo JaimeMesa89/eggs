@@ -21,7 +21,9 @@ index_template = """\
   <ul>
   {% for post in posts %}
   <li> <a href=" {{ post["url"] }}"> {{ post["title"] }} </a>| <small> {{ post["date"] }} </small></li>
+  {% if post["thumbnail"] != "" %}
   <img src="{{ post["thumbnail"] }}" alt="monito" width="150" height="100">
+  {% endif %}
   {% endfor %}
   </ul>
 </body>
@@ -38,8 +40,10 @@ post_template = """\
 </head>
 <body>
   <h1> {{ post["title"] }} </h1>
+  {% if post["thumbnail"] != "" %}
   <img src="{{ post["thumbnail"] }}" alt="monito" width="150" height="100">
   {{ post["content"] }}
+  {% endif %}
 </body>
 </html>
 """
