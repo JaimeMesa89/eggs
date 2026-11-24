@@ -10,9 +10,9 @@ from email.utils import format_datetime
 
 # Generate the index and posts on output
 def build(path):
-    if path != None:
+    if path != None and isinstance(path, str):
         os.chdir(path)
-        
+
     if os.path.isfile('config.toml'):
         # Regenerate the output directory
         shutil.rmtree('output', ignore_errors=True)
