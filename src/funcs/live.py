@@ -1,8 +1,9 @@
 import livereload
 from funcs.build import build
+import os
 
-def live():
-    build()
+def live(path):
+    build(path)
 
     server = livereload.Server()
     server.watch('content/*.md', build)

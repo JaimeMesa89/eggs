@@ -19,10 +19,10 @@ try:
             init(path)
 
         case 'build':
-            build()
+            build(path)
 
         case 'live':
-            live()
+            live(path)
 
         case None:
             print('Excelsius and Glorious Generator of Sites')
