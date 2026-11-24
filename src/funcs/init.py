@@ -38,6 +38,7 @@ post_template = """\
 </head>
 <body>
   <h1> {{ post["title"] }} </h1>
+  <img src="{{ post["thumbnail"] }}" alt="monito" width="150" height="100">
   {{ post["content"] }}
 </body>
 </html>
@@ -46,6 +47,7 @@ post_template = """\
 sample_post = """\
 title: Sample Title
 date: 6-7-2026
+thumbnail: https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F88%2F5b%2Fc5%2F885bc5cad4369e104be5eeab6c5d4b11.jpg
 
 Sample content
 """
@@ -53,6 +55,8 @@ Sample content
 # Generate project structure if the directory is empty
 def init(path):
     if path != None:
+        if not Path(path).is_dir():
+            os.mkdir(path)
         os.chdir(path)
 
     if len(os.listdir()) == 0:

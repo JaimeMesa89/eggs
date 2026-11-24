@@ -50,6 +50,7 @@ def build(path):
                     "content" : post,
                     "url" : "posts/" + markdown_post[:-3] + ".html",
                     "title" : post.metadata["title"],
+                    "thumbnail" : post.metadata["thumbnail"],
                     "description" : post.split("\n\n", 2)[0].strip()[3:-4], 
                     "date" : post.metadata["date"],
                     "date-season" : get_season(post.metadata["date"])
