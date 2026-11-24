@@ -6,15 +6,17 @@ from funcs.live import live
 
 # Main
 arg = None
+path = None
 try:
     arg = sys.argv[1]
+    path = sys.argv[2]
 except:
     pass
 
 try:
     match arg:
         case 'init':
-            init()
+            init(path)
 
         case 'build':
             build()

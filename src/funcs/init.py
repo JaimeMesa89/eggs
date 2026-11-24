@@ -49,7 +49,10 @@ Sample content
 """
 
 # Generate project structure if the directory is empty
-def init():
+def init(path):
+    if path != None:
+        os.chdir(path)
+
     if len(os.listdir()) == 0:
         os.mkdir('templates')
         os.mkdir('content')
@@ -75,4 +78,4 @@ def init():
         print("Project initialized succesfully")
     else:
         print("Error: Failed to initialize project")
-        print("Error: The current directory is not empty")
+        print("Error: The selected directory (" + os.getcwd() + ") is not empty")
