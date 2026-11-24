@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 config_file = """\
 title = ""
@@ -20,6 +21,7 @@ index_template = """\
   <ul>
   {% for post in posts %}
   <li> <a href=" {{ post["url"] }}"> {{ post["title"] }} </a>| <small> {{ post["date"] }} </small></li>
+  <img src="{{ post["thumbnail"] }}" alt="monito" width="150" height="100">
   {% endfor %}
   </ul>
 </body>
